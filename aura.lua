@@ -6,7 +6,7 @@ local Lighting = game:GetService("Lighting")
 local player = Players.LocalPlayer
 
 -- Target position
-local TARGET_CFRAME = CFrame.new(3890, 210.46, 39.72)
+local TARGET_CFRAME = CFrame.new(4290, 210.46, 39.72)
 
 -- State
 local autoTeleport = false
