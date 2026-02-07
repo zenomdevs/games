@@ -25,8 +25,8 @@ output.Size = UDim2.new(1, -20, 0, 60)
 output.Position = UDim2.new(0, 10, 0, 10)
 output.BackgroundTransparency = 1
 output.TextWrapped = true
-output.TextXAlignment = Left
-output.TextYAlignment = Top
+output.TextXAlignment = Enum.TextXAlignment.Left
+output.TextYAlignment = Enum.TextYAlignment.Top
 output.Font = Enum.Font.Code
 output.TextSize = 14
 output.TextColor3 = Color3.fromRGB(220,220,220)
@@ -57,7 +57,7 @@ button.MouseButton1Click:Connect(function()
 
 	output.Text = text
 
-	-- Copiar (se o executor permitir)
+	-- Copiar se possível
 	pcall(function()
 		setclipboard(text)
 	end)
