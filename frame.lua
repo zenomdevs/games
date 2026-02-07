@@ -1,25 +1,64 @@
 local Players = game:GetService("Players")
-local UserInputService = game:GetService("UserInputService")
-
 local player = Players.LocalPlayer
 
-print("Pressione F para capturar o CFrame atual")
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "CFrameSaver"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
 
-UserInputService.InputBegan:Connect(function(input, gpe)
-	if gpe then return end
+-- Frame
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 280, 0, 140)
+frame.Position = UDim2.new(0.5, -140, 0.75, 0)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+frame.BackgroundTransparency = 0.15
+frame.BorderSizePixel = 0
+frame.Active = true
 
-	if input.KeyCode == Enum.KeyCode.F then
-		local character = player.Character or player.CharacterAdded:Wait()
-		local hrp = character:WaitForChild("HumanoidRootPart")
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
+Instance.new("UIStroke", frame).Color = Color3.fromRGB(90,90,90)
 
-		local cf = hrp.CFrame
-		local pos = cf.Position
+-- Texto
+local output = Instance.new("TextLabel", frame)
+output.Size = UDim2.new(1, -20, 0, 60)
+output.Position = UDim2.new(0, 10, 0, 10)
+output.BackgroundTransparency = 1
+output.TextWrapped = true
+output.TextXAlignment = Left
+output.TextYAlignment = Top
+output.Font = Enum.Font.Code
+output.TextSize = 14
+output.TextColor3 = Color3.fromRGB(220,220,220)
+output.Text = "Clique em 'Salvar posição'"
 
-		local output = string.format(
-			"CFrame.new(%.2f, %.2f, %.2f)",
-			pos.X, pos.Y, pos.Z
-		)
+-- Botão
+local button = Instance.new("TextButton", frame)
+button.Size = UDim2.new(1, -20, 0, 36)
+button.Position = UDim2.new(0, 10, 1, -46)
+button.Text = "Salvar posição"
+button.Font = Enum.Font.GothamMedium
+button.TextSize = 14
+button.TextColor3 = Color3.fromRGB(230,230,230)
+button.BackgroundColor3 = Color3.fromRGB(60, 130, 90)
+button.BorderSizePixel = 0
+Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
 
-		print("TARGET_CFRAME = " .. output)
-	end
+-- Função
+button.MouseButton1Click:Connect(function()
+	local char = player.Character or player.CharacterAdded:Wait()
+	local hrp = char:WaitForChild("HumanoidRootPart")
+
+	local p = hrp.Position
+	local text = string.format(
+		"TARGET_CFRAME = CFrame.new(%.2f, %.2f, %.2f)",
+		p.X, p.Y, p.Z
+	)
+
+	output.Text = text
+
+	-- Copiar (se o executor permitir)
+	pcall(function()
+		setclipboard(text)
+	end)
 end)
