@@ -9,7 +9,7 @@ local player = Players.LocalPlayer
 local TARGET_CFRAME = CFrame.new(3849, 213, 39)
 
 -- State
-local autoTeleport = false
+local autoTeleport = true
 
 -- ===== UI ROOT =====
 local gui = Instance.new("ScreenGui")
