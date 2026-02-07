@@ -1,31 +1,25 @@
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 
-local gui = Instance.new("ScreenGui", player.PlayerGui)
-gui.ResetOnSpawn = false
+print("Pressione F para capturar o CFrame atual")
 
-local label = Instance.new("TextLabel", gui)
-label.Size = UDim2.new(0, 500, 0, 40)
-label.Position = UDim2.new(0.5, -250, 0.9, 0)
-label.BackgroundTransparency = 0.3
-label.BackgroundColor3 = Color3.fromRGB(20,20,20)
-label.TextColor3 = Color3.fromRGB(220,220,220)
-label.Font = Enum.Font.Code
-label.TextSize = 16
-label.Text = "Aguardando personagem..."
+UserInputService.InputBegan:Connect(function(input, gpe)
+	if gpe then return end
 
-RunService.RenderStepped:Connect(function()
-	local char = player.Character
-	if not char then return end
+	if input.KeyCode == Enum.KeyCode.F then
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart")
 
-	local hrp = char:FindFirstChild("HumanoidRootPart")
-	if not hrp then return end
+		local cf = hrp.CFrame
+		local pos = cf.Position
 
-	local p = hrp.Position
-	label.Text = string.format(
-		"CFrame.new(%.2f, %.2f, %.2f)",
-		p.X, p.Y, p.Z
-	)
+		local output = string.format(
+			"CFrame.new(%.2f, %.2f, %.2f)",
+			pos.X, pos.Y, pos.Z
+		)
+
+		print("TARGET_CFRAME = " .. output)
+	end
 end)
